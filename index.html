@@ -300,32 +300,51 @@ Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness
 }
 </style>
 
+<style>
+.pawprint {
+  position: fixed;
+  width: 28px;
+  opacity: 0.6;
+  pointer-events: none;
+  transform: rotate(var(--rot));
+  animation: fadePaw 4s forwards;
+}
+
+@keyframes fadePaw {
+  from { opacity: 0.6; }
+  to { opacity: 0; }
+}
+</style>
+
 <script>
 let lastPawTime = 0;
 
 document.addEventListener("mousemove", function(e){
   const now = Date.now();
-  
-  // slow it down (one paw every 180ms)
-  if(now - lastPawTime < 180) return;
+
+  // slower trail (adjust higher = slower)
+  if(now - lastPawTime < 280) return;
   lastPawTime = now;
 
   const paw = document.createElement("img");
-  paw.src = "https://i.imgur.com/4NZ6uLY.png"; // real paw print graphic
+
+  // REAL paw print image (dog/cat style)
+  paw.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Paw_print.svg/240px-Paw_print.svg.png";
+
   paw.className = "pawprint";
 
-  paw.style.left = (e.pageX - 16) + "px";
-  paw.style.top = (e.pageY - 16) + "px";
+  paw.style.left = (e.pageX - 14) + "px";
+  paw.style.top = (e.pageY - 14) + "px";
 
-  // random slight rotation
-  const rot = Math.random() * 40 - 20;
+  const rot = Math.random() * 30 - 15;
   paw.style.setProperty("--rot", rot + "deg");
 
   document.body.appendChild(paw);
 
-  setTimeout(() => paw.remove(), 3500);
+  setTimeout(() => paw.remove(), 4000);
 });
 </script>
+
 
 
 </body>
