@@ -267,120 +267,7 @@ Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness
   </main>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-  <style>
-.paw {
-  position: fixed;
-  width: 26px;
-  opacity: 0.8;
-  pointer-events: none;
-  animation: fadeOut 2s forwards;
-}
-
-@keyframes fadeOut {
-  from {opacity: 0.8;}
-  to {opacity: 0;}
-}
-</style>
-
-<style>
-.pawprint {
-  position: fixed;
-  width: 32px;
-  opacity: 0.75;
-  pointer-events: none;
-  transform: rotate(var(--rot));
-  animation: fadePaw 3.5s forwards;
-}
-
-@keyframes fadePaw {
-  from { opacity: 0.75; }
-  to { opacity: 0; }
-}
-</style>
-
-<style>
-.pawprint {
-  position: fixed;
-  width: 28px;
-  opacity: 0.6;
-  pointer-events: none;
-  transform: rotate(var(--rot));
-  animation: fadePaw 4s forwards;
-}
-
-@keyframes fadePaw {
-  from { opacity: 0.6; }
-  to { opacity: 0; }
-}
-</style>
-
-<script>
-let lastPawTime = 0;
-
-document.addEventListener("mousemove", function(e){
-  const now = Date.now();
-
-  // slower trail (adjust higher = slower)
-  if(now - lastPawTime < 280) return;
-  lastPawTime = now;
-
-  const paw = document.createElement("img");
-
-  // REAL paw print image (dog/cat style)
-  paw.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Paw_print.svg/240px-Paw_print.svg.png";
-
-  paw.className = "pawprint";
-
-  paw.style.left = (e.pageX - 14) + "px";
-  paw.style.top = (e.pageY - 14) + "px";
-
-  const rot = Math.random() * 30 - 15;
-  paw.style.setProperty("--rot", rot + "deg");
-
-  document.body.appendChild(paw);
-
-  setTimeout(() => paw.remove(), 4000);
-});
-</script>
-
-
-<style>
-.pawprint {
-  position: fixed;
-  width: 30px;
-  opacity: 0.75;
-  pointer-events: none;
-  z-index: 999999; /* always on top */
-  transform: rotate(var(--rot));
-  animation: fadePaw 4s forwards;
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.35)); /* shows on dark bg */
-}
-
-@keyframes fadePaw {
-  from { opacity: 0.75; }
-  to { opacity: 0; }
-}
-</style>
-
-<style>
-.pawprint {
-  position: fixed;
-  width: 30px;
-  opacity: 0.75;
-  pointer-events: none;
-  z-index: 999999;
-  transform: rotate(var(--rot));
-  animation: fadePaw 4s forwards;
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
-}
-
-@keyframes fadePaw {
-  from { opacity: 0.75; }
-  to { opacity: 0; }
-}
-<style>
+    <style>
   .pawprint {
     position: fixed;
     width: 30px;
@@ -391,7 +278,10 @@ document.addEventListener("mousemove", function(e){
     animation: fadePaw 4s forwards;
     filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
   }
-  @keyframes fadePaw { from {opacity:.75;} to {opacity:0;} }
+  @keyframes fadePaw {
+    from { opacity: 0.75; }
+    to   { opacity: 0; }
+  }
 </style>
 
 <script>
@@ -403,9 +293,8 @@ document.addEventListener("mousemove", function(e){
     lastPawTime = now;
 
     const paw = document.createElement("img");
-
-    // This builds the correct URL no matter what your GitHub Pages path is:
-    paw.src = new URL("paw.jpg", window.location.href).href + "?v=" + now;
+    // Always loads from the same folder as index.html
+    paw.src = "paw.jpg?v=" + now;
 
     paw.className = "pawprint";
     paw.style.left = (e.clientX - 15) + "px";
