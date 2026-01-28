@@ -346,6 +346,48 @@ document.addEventListener("mousemove", function(e){
 </script>
 
 
+<style>
+.pawprint {
+  position: fixed;
+  width: 30px;
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 999999; /* always on top */
+  transform: rotate(var(--rot));
+  animation: fadePaw 4s forwards;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.35)); /* shows on dark bg */
+}
+
+@keyframes fadePaw {
+  from { opacity: 0.75; }
+  to { opacity: 0; }
+}
+</style>
+
+<script>
+let lastPawTime = 0;
+
+document.addEventListener("mousemove", function(e){
+  const now = Date.now();
+
+  // speed (higher = slower)
+  if(now - lastPawTime < 280) return;
+  lastPawTime = now;
+
+  const paw = document.createElement("img");
+  paw.src = "paw.png"; // <-- MUST match your uploaded filename exactly
+  paw.className = "pawprint";
+
+  paw.style.left = (e.clientX - 15) + "px";
+  paw.style.top  = (e.clientY - 15) + "px";
+
+  const rot = Math.random() * 30 - 15;
+  paw.style.setProperty("--rot", rot + "deg");
+
+  document.body.appendChild(paw);
+  setTimeout(() => paw.remove(), 4000);
+});
+</script>
 
 </body>
 </html>
