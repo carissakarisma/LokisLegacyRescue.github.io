@@ -380,32 +380,43 @@ document.addEventListener("mousemove", function(e){
   from { opacity: 0.75; }
   to { opacity: 0; }
 }
+<style>
+  .pawprint {
+    position: fixed;
+    width: 30px;
+    opacity: 0.75;
+    pointer-events: none;
+    z-index: 999999;
+    transform: rotate(var(--rot));
+    animation: fadePaw 4s forwards;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+  }
+  @keyframes fadePaw { from {opacity:.75;} to {opacity:0;} }
 </style>
 
 <script>
-let lastPawTime = 0;
+  let lastPawTime = 0;
 
-document.addEventListener("mousemove", function(e){
-  const now = Date.now();
+  document.addEventListener("mousemove", (e) => {
+    const now = Date.now();
+    if (now - lastPawTime < 280) return; // speed (higher = slower)
+    lastPawTime = now;
 
-  // speed control (higher = slower)
-  if(now - lastPawTime < 280) return;
-  lastPawTime = now;
+    const paw = document.createElement("img");
 
-  const paw = document.createElement("img");
-  paw.src = "paw.jpg";   // <-- YOUR IMAGE FILE
-  paw.className = "pawprint";
+    // This builds the correct URL no matter what your GitHub Pages path is:
+    paw.src = new URL("paw.jpg", window.location.href).href + "?v=" + now;
 
-  paw.style.left = (e.clientX - 15) + "px";
-  paw.style.top  = (e.clientY - 15) + "px";
+    paw.className = "pawprint";
+    paw.style.left = (e.clientX - 15) + "px";
+    paw.style.top  = (e.clientY - 15) + "px";
 
-  const rot = Math.random() * 30 - 15;
-  paw.style.setProperty("--rot", rot + "deg");
+    const rot = Math.random() * 30 - 15;
+    paw.style.setProperty("--rot", rot + "deg");
 
-  document.body.appendChild(paw);
-
-  setTimeout(() => paw.remove(), 4000);
-});
+    document.body.appendChild(paw);
+    setTimeout(() => paw.remove(), 4000);
+  });
 </script>
 
 
