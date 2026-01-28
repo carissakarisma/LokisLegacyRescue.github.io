@@ -552,8 +552,11 @@ Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness
     </div>
   </main>
 
-  <script>
-    <style>
+ <script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<style>
   .pawprint {
     position: fixed;
     width: 30px;
@@ -575,14 +578,13 @@ Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness
 
   document.addEventListener("mousemove", (e) => {
     const now = Date.now();
-    if (now - lastPawTime < 280) return; // speed (higher = slower)
+    if (now - lastPawTime < 280) return; // speed
     lastPawTime = now;
 
     const paw = document.createElement("img");
-    // Always loads from the same folder as index.html
-    paw.src = "paw.jpg?v=" + now;
-
+    paw.src = "paw.jpg?v=" + now;  // uses YOUR image
     paw.className = "pawprint";
+
     paw.style.left = (e.clientX - 15) + "px";
     paw.style.top  = (e.clientY - 15) + "px";
 
