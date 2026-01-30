@@ -216,29 +216,46 @@
     </div>
   </main>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+ <script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Paw trail
-    let lastPawTime = 0;
-    document.addEventListener("mousemove", (e) => {
-      const now = Date.now();
-      if (now - lastPawTime < 280) return;
-      lastPawTime = now;
+  let lastPawTime = 0;
 
-      const paw = document.createElement("img");
-      paw.src = "images/paw.jpg?v=" + now; // make sure paw.jpg is in /images
-      paw.className = "pawprint";
+  // quick visual proof the script is running
+  const badge = document.createElement("div");
+  badge.textContent = "Paws ON ✅";
+  badge.style.cssText = "position:fixed;bottom:12px;left:12px;z-index:999999;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:12px;backdrop-filter:blur(8px)";
+  document.body.appendChild(badge);
 
-      paw.style.left = (e.clientX - 15) + "px";
-      paw.style.top  = (e.clientY - 15) + "px";
+  // build a reliable URL to your image
+  function pawUrl() {
+    return new URL("images/paw.jpg", window.location.href).href;
+  }
 
-      const rot = Math.random() * 30 - 15;
-      paw.style.setProperty("--rot", rot + "deg");
+  document.addEventListener("pointermove", (e) => {
+    const now = Date.now();
+    if (now - lastPawTime < 280) return;
+    lastPawTime = now;
 
-      document.body.appendChild(paw);
-      setTimeout(() => paw.remove(), 4000);
-    });
-  </script>
+    const paw = document.createElement("img");
+    paw.className = "pawprint";
+
+    paw.src = pawUrl() + "?v=" + now;
+
+    // if the image fails, show it in the badge so you know instantly
+    paw.onerror = () => {
+      badge.textContent = "Paw image NOT FOUND ❌ (check folder/name)";
+    };
+
+    paw.style.left = (e.clientX - 15) + "px";
+    paw.style.top  = (e.clientY - 15) + "px";
+
+    paw.style.setProperty("--rot", (Math.random() * 30 - 15) + "deg");
+
+    document.body.appendChild(paw);
+    setTimeout(() => paw.remove(), 4000);
+  });
+</script>
+
 </body>
 </html>
