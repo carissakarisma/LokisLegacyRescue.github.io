@@ -554,50 +554,52 @@ Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness
     </div>
   </main>
 
- <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 
-<style>
-  .pawprint {
-    position: fixed;
-    width: 30px;
-    opacity: 0.75;
-    pointer-events: none;
-    z-index: 999999;
-    transform: rotate(var(--rot));
-    animation: fadePaw 4s forwards;
-    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
-  }
-  @keyframes fadePaw {
-    from { opacity: 0.75; }
-    to   { opacity: 0; }
-  }
-</style>
+  <style>
+    .pawprint {
+      position: fixed;
+      width: 30px;
+      opacity: 0.75;
+      pointer-events: none;
+      z-index: 999999;
+      transform: rotate(var(--rot));
+      animation: fadePaw 4s forwards;
+      filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.35));
+    }
+    @keyframes fadePaw {
+      from { opacity: 0.75; }
+      to   { opacity: 0; }
+    }
+  </style>
 
-<script>
-  let lastPawTime = 0;
+  <script>
+    let lastPawTime = 0;
 
-  document.addEventListener("mousemove", (e) => {
-    const now = Date.now();
-    if (now - lastPawTime < 280) return; // speed
-    lastPawTime = now;
+    document.addEventListener("mousemove", (e) => {
+      const now = Date.now();
+      if (now - lastPawTime < 280) return;
+      lastPawTime = now;
 
-    const paw = document.createElement("img");
-   paw.src = "images/paw.jpg?v=" + now;
-  // uses YOUR image
-    paw.className = "pawprint";
+      const paw = document.createElement("img");
+      paw.src = "images/paw.jpg?v=" + now;   // <-- your folder + file
+      paw.className = "pawprint";
 
-    paw.style.left = (e.clientX - 15) + "px";
-    paw.style.top  = (e.clientY - 15) + "px";
+      paw.style.left = (e.clientX - 15) + "px";
+      paw.style.top  = (e.clientY - 15) + "px";
 
-    const rot = Math.random() * 30 - 15;
-    paw.style.setProperty("--rot", rot + "deg");
+      const rot = Math.random() * 30 - 15;
+      paw.style.setProperty("--rot", rot + "deg");
 
-    document.body.appendChild(paw);
-    setTimeout(() => paw.remove(), 4000);
-  });
-</script>
+      document.body.appendChild(paw);
+      setTimeout(() => paw.remove(), 4000);
+    });
+  </script>
+
+</body>
+</html>
 
 
 
