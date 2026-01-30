@@ -7,6 +7,26 @@
 Loki's Legacy Rescue — Save • Foster • Adopt</title>
   <meta name="description" content="Helping all animals through rescue, fostering, and adoption." />
   <style>
+    /* Paw trail effect */
+.pawprint{
+  position: fixed;
+  width: 32px;
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0.75;
+  transform: rotate(var(--rot));
+  animation: fadePaw 4s forwards;
+
+  /* makes black background appear translucent */
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+}
+
+@keyframes fadePaw{
+  from { opacity: 0.75; }
+  to   { opacity: 0; }
+}
+
     :root{
       --bg:#0b0f14; --card:#111826; --muted:#9fb0c3; --text:#e9f1ff;
       --accent:#7dd3fc; --accent2:#a7f3d0; --border:#1f2a3a;
@@ -599,6 +619,27 @@ Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness
 
 
 
+<script>
+let lastPawTime = 0;
+
+document.addEventListener("mousemove", (e) => {
+  const now = Date.now();
+  if (now - lastPawTime < 260) return; // speed control
+  lastPawTime = now;
+
+  const paw = document.createElement("img");
+  paw.src = "paw.jpg";   // same folder as index.html
+  paw.className = "pawprint";
+
+  paw.style.left = (e.clientX - 16) + "px";
+  paw.style.top  = (e.clientY - 16) + "px";
+
+  paw.style.setProperty("--rot", (Math.random() * 30 - 15) + "deg");
+
+  document.body.appendChild(paw);
+  setTimeout(() => paw.remove(), 4000);
+});
+</script>
 
 
 </body>
