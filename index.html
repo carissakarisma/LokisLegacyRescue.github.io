@@ -1,23 +1,604 @@
-<script>
-let lastPawTime = 0;
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+Loki's Legacy Rescue — Save • Foster • Adopt</title>
+  <meta name="description" content="Helping all animals through rescue, fostering, and adoption." />
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#111826; --muted:#9fb0c3; --text:#e9f1ff;
+      --accent:#7dd3fc; --accent2:#a7f3d0; --border:#1f2a3a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(125,211,252,.18), transparent 60%),
+                  radial-gradient(900px 500px at 80% 10%, rgba(167,243,208,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .wrap{max-width:1050px; margin:0 auto; padding:24px}
+    header{
+      position:sticky; top:0; backdrop-filter: blur(10px);
+      background: rgba(11,15,20,.7); border-bottom:1px solid rgba(31,42,58,.6);
+      z-index:10;
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
+    .brand .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display:inline-block;
+    }
+    .links{display:flex; flex-wrap:wrap; gap:14px; font-size:14px; color:var(--muted)}
+    .links a{ text-decoration:none; padding:8px 10px; border-radius:10px}
+    .links a:hover{ background: rgba(31,42,58,.5); color:var(--text)}
+    .hero{padding:42px 0 18px; display:grid; grid-template-columns: 1.2fr .8fr; gap:18px; align-items:stretch}
+    @media (max-width: 860px){ .hero{grid-template-columns:1fr} }
+    .card{
+      background: rgba(17,24,38,.75);
+      border:1px solid rgba(31,42,58,.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      border-radius:18px;
+      padding:22px;
+    }
+    h1{font-size: clamp(30px, 4vw, 46px); margin:0 0 10px}
+    p{margin:0 0 12px; color:var(--muted); line-height:1.55}
+    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px; padding:12px 14px; border-radius:14px;
+      text-decoration:none; font-weight:650; font-size:14px;
+      border:1px solid rgba(31,42,58,.9);
+      background: rgba(31,42,58,.45);
+    }
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, rgba(125,211,252,.95), rgba(167,243,208,.95));
+      color:#081018;
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .stats{display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:14px}
+    @media (max-width: 520px){ .stats{grid-template-columns:1fr} }
+    .stat{padding:14px; border-radius:16px; border:1px solid rgba(31,42,58,.7); background: rgba(11,15,20,.35)}
+    .stat b{display:block; font-size:18px; color:var(--text)}
+    .grid{display:grid; grid-template-columns: repeat(3,1fr); gap:14px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+    .section{padding:18px 0}
+    h2{margin:0 0 10px; font-size:22px}
+    ul{margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.6}
+    .badge{display:inline-flex; gap:8px; align-items:center; font-size:12px; color:#071018;
+      background: rgba(125,211,252,.9); padding:6px 10px; border-radius:999px; font-weight:700}
+    .footer{padding:28px 0 42px; color:var(--muted); font-size:13px}
+    .mini{font-size:12px; color:var(--muted)}
+    .hr{height:1px; background: rgba(31,42,58,.7); margin:16px 0}
+    input, textarea{
+      width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(31,42,58,.8);
+      background: rgba(11,15,20,.35); color:var(--text);
+      outline:none;
+    }
+    textarea{min-height:110px; resize:vertical}
+    label{display:block; font-size:13px; color:var(--muted); margin:10px 0 6px}
+    .note{font-size:12px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <span id="rescueName">Loki's Legacy Rescue</span>
+      </div>
+      <nav class="links" aria-label="Site">
+        <a href="#about">About</a>
+        <a href="#adopt">Adopt</a>
+        <a href="#foster">Foster</a>
+        <a href="#donate">Donate</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-document.addEventListener("mousemove", (e) => {
-  const now = Date.now();
-  if (now - lastPawTime < 280) return; // speed
-  lastPawTime = now;
+  <main class="wrap">
+    <section class="hero">
+      <div class="card">
+        <span class="badge"> Central Valley, Bay Area and Beyond.</span>
+        <h1>Rescue. Rehab. Rehome.</h1>
+        <p>
+          We help animals in crisis through rescue, fostering, medical support, and adoption.
+          Want to help today? Foster, donate, or share our posts.
 
-  const paw = document.createElement("img");
-  paw.src = "paw.jpg"; // <-- correct path
-  paw.className = "pawprint";
+    
+        </p>
+        <div class="ctaRow">
+          <a class="btn primary" href="#donate">Donate</a>
+          <a class="btn" href="#adopt">View adoptables</a>
+          <a class="btn" href="#foster">Become a foster</a>
+        </div>
 
-  paw.style.left = (e.clientX - 16) + "px";
-  paw.style.top  = (e.clientY - 16) + "px";
+        <div class="stats">
+          <div class="stat"><b>💛 501(c)(3)</b><span class="mini">EIN# 41-3832094</span></div>
+          <div class="stat"><b>🏠 Foster-based</b><span class="mini">We rely on fosters</span></div>
+          <div class="stat"><b>🛟 Emergency help</b><span class="mini">Strays, surrenders, urgent cases</span></div>
+        </div>
+      </div>
 
-  const rot = Math.random() * 30 - 15;
-  paw.style.setProperty("--rot", rot + "deg");
+      <div class="card">
+        <h2>Urgent needs</h2>
+        <p>Blankets, sweaters, jackets, straw, dog houses/shelters/kennels, beds, towels, toys</p>
+        <ul>
+          <li>Dog food (adult + puppy), cat food & kitten formula, litter</li>
+          <li>Crates, leashes, slip leads, harnesses, collars, bowls</li>
+          <li>Flea/tick prevention, dewormer</li>
+          <li>Gas cards for transport & vet runs</li>
+        </ul>
+        <div class="hr"></div>
+        <p class="note">*Amazon Wish List link located in the Donate section.*</p>
+      </div>
+    </section>
 
-  document.body.appendChild(paw);
+    <section id="about" class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>About us</h2>
+          <p>
+           Loki’s Legacy Rescue is a nonprofit organization dedicated to rescuing, rehabilitating, and rehoming stray, abandoned, and abused animals, while providing food, medical care, and advocacy to reduce animal suffering in our community.
 
-  setTimeout(() => paw.remove(), 4000);
-});
+            Loki’s Legacy Rescue was born from two souls whose energy forever changed mine.  
+
+Years ago, I survived an accident that took the life of a woman I never knew — an animal lover whose compassion I carry with me still. I believe a piece of her love for animals found its way into my heart that day.  
+
+Many years later, I met Loki — a gentle, loyal soul who reminded me what pure love looks like. Though I couldn’t save him in time, his spirit became my purpose. His legacy now lives on through every life this rescue touches.  
+
+Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness and a dog’s unwavering love — and to turn loss into a living force of hope, healing, and compassion for every animal in need.  
+
+          </p>
+        </div>
+        <div class="card">
+          <h2>What we do</h2>
+          <ul>
+            <li>Loki’s Legacy Rescue is a nonprofit organization dedicated to rescuing, rehabilitating, and rehoming stray, abandoned, and abused animals, while providing food, medical care, and advocacy to reduce animal suffering in our community.<li>
+              </li>Rescue strays + owner surrenders when space allows</li>
+            <li>Provide basic medical care & spay/neuter when possible</li>
+            <li>Match adopters with the right pets</li>
+            <li>Support fosters with supplies and guidance</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Transparency</h2>
+          <ul>
+            <li>Donations go to food, supplies, vet care, and transport</li>
+            <li>Receipts available upon request</li>
+            <li>We post updates on socials (add links below)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="adopt" class="section">
+      <div class="card">
+        <h2>Adopt</h2>
+        <p>
+          Add your adoptables here. Easiest: link to your Petfinder/Adopt-a-Pet page, or a Facebook album.
+        </p>
+        <ul>
+          <li><b>Adoptables link:</b> <a href="#" onclick="alert('Replace this link with your Petfinder / FB album URL'); return false;">Add your link</a></li>
+          <li><b>Adoption fee:</b> $___ (includes: vaccines / spay-neuter / microchip — edit as needed)</li>
+          <li><b>Apply:</b> Use a free Google Form and link it here</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="foster" class="section">
+      <div class="card">
+        <h2>Foster</h2>
+        <p>
+          Fostering saves lives. If you can offer a safe space for a few weeks, we’ll help with guidance and resources.
+        </p>
+        <ul>
+          <li>Short-term or long-term fosters needed</li>
+          <li>Medical fosters (after surgery) especially helpful</li>
+          <li>Transport-only volunteers welcome</li>
+        </ul>
+        <p class="note">Add your foster application link (Google Form) here.</p>
+      </div>
+    </section>
+
+    <section id="donate" class="section">
+      <div class="card">
+        <h2>Donate</h2>
+        <p>
+          Every dollar helps. Replace the placeholders with your real links.
+        </p>
+        <ul>
+          <li><b>Venmo:</b> @LokisLegacyRescue</li>
+          <li><b>PayPal:</b> paypal.me/YourRescue</li>
+          <li><b>Zelle:</b> your-email@domain.com</li>
+          <li><b>Wish List:</b> Amazon Wish List link</li>
+          <li><b>501(c)(3) EIN:</b> 41-3832094</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>Contact</h2>
+          <p>
+            Replace this with your rescue email and phone (or just email if you prefer).
+          </p>
+          <ul>
+            <li><b>Email:</b> yourrescue@email.com</li>
+            <li><b>Instagram:</b> @yourrescue</li>
+            <li><b>Facebook:</b> facebook.com/yourpage</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Quick message</h2>
+          <p class="note">
+            This form doesn’t send anywhere by itself (because it’s just HTML).
+            Easiest free fix: replace it with a Google Form link.
+          </p>
+          <label for="name">Name</label>
+          <input id="name" placeholder="Your name" />
+          <label for="msg">Message</label>
+          <textarea id="msg" placeholder="How can you help / what do you need?"></textarea>
+          <div class="ctaRow">
+            <a class="btn primary" href="#" onclick="alert('Use a Google Form for free contact messages, or tell me what platform you want and I’ll set it up.'); return false;">Send</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Service area</h2>
+          <p>Stockton • San Joaquin County • Central Valley (edit this)</p>
+          <p class="note">Tip: Add an intake policy (what you can/can’t take) to reduce overwhelm.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="hr"></div>
+      <p>© <span id="year"></span> <span id="rescueName2">Your Animal Rescue</span>. Built free on GitHub Pages.</p>
+    </div>
+  </main>
+
+  <script>
+    <style>
+  .pawprint {
+    position: fixed;
+    width: 30px;
+    opacity: 0.75;
+    pointer-events: none;
+    z-index: 999999;
+    transform: rotate(var(--rot));
+    animation: fadePaw 4s forwards;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+  }
+  @keyframes fadePaw {
+    from { opacity: 0.75; }
+    to   { opacity: 0; }
+  }
+</style>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+Loki's Legacy Rescue — Save • Foster • Adopt</title>
+  <meta name="description" content="Helping all animals through rescue, fostering, and adoption." />
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#111826; --muted:#9fb0c3; --text:#e9f1ff;
+      --accent:#7dd3fc; --accent2:#a7f3d0; --border:#1f2a3a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(125,211,252,.18), transparent 60%),
+                  radial-gradient(900px 500px at 80% 10%, rgba(167,243,208,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .wrap{max-width:1050px; margin:0 auto; padding:24px}
+    header{
+      position:sticky; top:0; backdrop-filter: blur(10px);
+      background: rgba(11,15,20,.7); border-bottom:1px solid rgba(31,42,58,.6);
+      z-index:10;
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
+    .brand .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display:inline-block;
+    }
+    .links{display:flex; flex-wrap:wrap; gap:14px; font-size:14px; color:var(--muted)}
+    .links a{ text-decoration:none; padding:8px 10px; border-radius:10px}
+    .links a:hover{ background: rgba(31,42,58,.5); color:var(--text)}
+    .hero{padding:42px 0 18px; display:grid; grid-template-columns: 1.2fr .8fr; gap:18px; align-items:stretch}
+    @media (max-width: 860px){ .hero{grid-template-columns:1fr} }
+    .card{
+      background: rgba(17,24,38,.75);
+      border:1px solid rgba(31,42,58,.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      border-radius:18px;
+      padding:22px;
+    }
+    h1{font-size: clamp(30px, 4vw, 46px); margin:0 0 10px}
+    p{margin:0 0 12px; color:var(--muted); line-height:1.55}
+    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px; padding:12px 14px; border-radius:14px;
+      text-decoration:none; font-weight:650; font-size:14px;
+      border:1px solid rgba(31,42,58,.9);
+      background: rgba(31,42,58,.45);
+    }
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, rgba(125,211,252,.95), rgba(167,243,208,.95));
+      color:#081018;
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .stats{display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:14px}
+    @media (max-width: 520px){ .stats{grid-template-columns:1fr} }
+    .stat{padding:14px; border-radius:16px; border:1px solid rgba(31,42,58,.7); background: rgba(11,15,20,.35)}
+    .stat b{display:block; font-size:18px; color:var(--text)}
+    .grid{display:grid; grid-template-columns: repeat(3,1fr); gap:14px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+    .section{padding:18px 0}
+    h2{margin:0 0 10px; font-size:22px}
+    ul{margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.6}
+    .badge{display:inline-flex; gap:8px; align-items:center; font-size:12px; color:#071018;
+      background: rgba(125,211,252,.9); padding:6px 10px; border-radius:999px; font-weight:700}
+    .footer{padding:28px 0 42px; color:var(--muted); font-size:13px}
+    .mini{font-size:12px; color:var(--muted)}
+    .hr{height:1px; background: rgba(31,42,58,.7); margin:16px 0}
+    input, textarea{
+      width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(31,42,58,.8);
+      background: rgba(11,15,20,.35); color:var(--text);
+      outline:none;
+    }
+    textarea{min-height:110px; resize:vertical}
+    label{display:block; font-size:13px; color:var(--muted); margin:10px 0 6px}
+    .note{font-size:12px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <span id="rescueName">Loki's Legacy Rescue</span>
+      </div>
+      <nav class="links" aria-label="Site">
+        <a href="#about">About</a>
+        <a href="#adopt">Adopt</a>
+        <a href="#foster">Foster</a>
+        <a href="#donate">Donate</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="card">
+        <span class="badge"> Central Valley, Bay Area and Beyond.</span>
+        <h1>Rescue. Rehab. Rehome.</h1>
+        <p>
+          We help animals in crisis through rescue, fostering, medical support, and adoption.
+          Want to help today? Foster, donate, or share our posts.
+
+    
+        </p>
+        <div class="ctaRow">
+          <a class="btn primary" href="#donate">Donate</a>
+          <a class="btn" href="#adopt">View adoptables</a>
+          <a class="btn" href="#foster">Become a foster</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b>💛 501(c)(3)</b><span class="mini">EIN# 41-3832094</span></div>
+          <div class="stat"><b>🏠 Foster-based</b><span class="mini">We rely on fosters</span></div>
+          <div class="stat"><b>🛟 Emergency help</b><span class="mini">Strays, surrenders, urgent cases</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Urgent needs</h2>
+        <p>Blankets, sweaters, jackets, straw, dog houses/shelters/kennels, beds, towels, toys</p>
+        <ul>
+          <li>Dog food (adult + puppy), cat food & kitten formula, litter</li>
+          <li>Crates, leashes, slip leads, harnesses, collars, bowls</li>
+          <li>Flea/tick prevention, dewormer</li>
+          <li>Gas cards for transport & vet runs</li>
+        </ul>
+        <div class="hr"></div>
+        <p class="note">*Amazon Wish List link located in the Donate section.*</p>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>About us</h2>
+          <p>
+           Loki’s Legacy Rescue is a nonprofit organization dedicated to rescuing, rehabilitating, and rehoming stray, abandoned, and abused animals, while providing food, medical care, and advocacy to reduce animal suffering in our community.
+
+            Loki’s Legacy Rescue was born from two souls whose energy forever changed mine.  
+
+Years ago, I survived an accident that took the life of a woman I never knew — an animal lover whose compassion I carry with me still. I believe a piece of her love for animals found its way into my heart that day.  
+
+Many years later, I met Loki — a gentle, loyal soul who reminded me what pure love looks like. Though I couldn’t save him in time, his spirit became my purpose. His legacy now lives on through every life this rescue touches.  
+
+Loki’s Legacy Rescue exists to honor them both — a woman’s unseen kindness and a dog’s unwavering love — and to turn loss into a living force of hope, healing, and compassion for every animal in need.  
+
+          </p>
+        </div>
+        <div class="card">
+          <h2>What we do</h2>
+          <ul>
+            <li>Loki’s Legacy Rescue is a nonprofit organization dedicated to rescuing, rehabilitating, and rehoming stray, abandoned, and abused animals, while providing food, medical care, and advocacy to reduce animal suffering in our community.<li>
+              </li>Rescue strays + owner surrenders when space allows</li>
+            <li>Provide basic medical care & spay/neuter when possible</li>
+            <li>Match adopters with the right pets</li>
+            <li>Support fosters with supplies and guidance</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Transparency</h2>
+          <ul>
+            <li>Donations go to food, supplies, vet care, and transport</li>
+            <li>Receipts available upon request</li>
+            <li>We post updates on socials (add links below)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="adopt" class="section">
+      <div class="card">
+        <h2>Adopt</h2>
+        <p>
+          Add your adoptables here. Easiest: link to your Petfinder/Adopt-a-Pet page, or a Facebook album.
+        </p>
+        <ul>
+          <li><b>Adoptables link:</b> <a href="#" onclick="alert('Replace this link with your Petfinder / FB album URL'); return false;">Add your link</a></li>
+          <li><b>Adoption fee:</b> $___ (includes: vaccines / spay-neuter / microchip — edit as needed)</li>
+          <li><b>Apply:</b> Use a free Google Form and link it here</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="foster" class="section">
+      <div class="card">
+        <h2>Foster</h2>
+        <p>
+          Fostering saves lives. If you can offer a safe space for a few weeks, we’ll help with guidance and resources.
+        </p>
+        <ul>
+          <li>Short-term or long-term fosters needed</li>
+          <li>Medical fosters (after surgery) especially helpful</li>
+          <li>Transport-only volunteers welcome</li>
+        </ul>
+        <p class="note">Add your foster application link (Google Form) here.</p>
+      </div>
+    </section>
+
+    <section id="donate" class="section">
+      <div class="card">
+        <h2>Donate</h2>
+        <p>
+          Every dollar helps. Replace the placeholders with your real links.
+        </p>
+        <ul>
+          <li><b>Venmo:</b> @LokisLegacyRescue</li>
+          <li><b>PayPal:</b> paypal.me/YourRescue</li>
+          <li><b>Zelle:</b> your-email@domain.com</li>
+          <li><b>Wish List:</b> Amazon Wish List link</li>
+          <li><b>501(c)(3) EIN:</b> 41-3832094</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>Contact</h2>
+          <p>
+            Replace this with your rescue email and phone (or just email if you prefer).
+          </p>
+          <ul>
+            <li><b>Email:</b> yourrescue@email.com</li>
+            <li><b>Instagram:</b> @yourrescue</li>
+            <li><b>Facebook:</b> facebook.com/yourpage</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Quick message</h2>
+          <p class="note">
+            This form doesn’t send anywhere by itself (because it’s just HTML).
+            Easiest free fix: replace it with a Google Form link.
+          </p>
+          <label for="name">Name</label>
+          <input id="name" placeholder="Your name" />
+          <label for="msg">Message</label>
+          <textarea id="msg" placeholder="How can you help / what do you need?"></textarea>
+          <div class="ctaRow">
+            <a class="btn primary" href="#" onclick="alert('Use a Google Form for free contact messages, or tell me what platform you want and I’ll set it up.'); return false;">Send</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Service area</h2>
+          <p>Stockton • San Joaquin County • Central Valley (edit this)</p>
+          <p class="note">Tip: Add an intake policy (what you can/can’t take) to reduce overwhelm.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="hr"></div>
+      <p>© <span id="year"></span> <span id="rescueName2">Your Animal Rescue</span>. Built free on GitHub Pages.</p>
+    </div>
+  </main>
+
+ <script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+
+<style>
+  .pawprint {
+    position: fixed;
+    width: 30px;
+    opacity: 0.75;
+    pointer-events: none;
+    z-index: 999999;
+    transform: rotate(var(--rot));
+    animation: fadePaw 4s forwards;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+  }
+  @keyframes fadePaw {
+    from { opacity: 0.75; }
+    to   { opacity: 0; }
+  }
+</style>
+
+<script>
+  let lastPawTime = 0;
+
+  document.addEventListener("mousemove", (e) => {
+    const now = Date.now();
+    if (now - lastPawTime < 280) return; // speed
+    lastPawTime = now;
+
+    const paw = document.createElement("img");
+    paw.src = "paw.jpg?v=" + now;  // uses YOUR image
+    paw.className = "pawprint";
+
+    paw.style.left = (e.clientX - 15) + "px";
+    paw.style.top  = (e.clientY - 15) + "px";
+
+    const rot = Math.random() * 30 - 15;
+    paw.style.setProperty("--rot", rot + "deg");
+
+    document.body.appendChild(paw);
+    setTimeout(() => paw.remove(), 4000);
+  });
+</script>
+
+
+
+
+
+</body>
+</html>
