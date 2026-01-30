@@ -624,22 +624,25 @@ let lastPawTime = 0;
 
 document.addEventListener("mousemove", (e) => {
   const now = Date.now();
-  if (now - lastPawTime < 260) return; // speed control
+  if (now - lastPawTime < 280) return; // speed
   lastPawTime = now;
 
   const paw = document.createElement("img");
-  paw.src = "paw.jpg";   // same folder as index.html
+  paw.src = "paw.jpg"; // <-- correct path
   paw.className = "pawprint";
 
   paw.style.left = (e.clientX - 16) + "px";
   paw.style.top  = (e.clientY - 16) + "px";
 
-  paw.style.setProperty("--rot", (Math.random() * 30 - 15) + "deg");
+  const rot = Math.random() * 30 - 15;
+  paw.style.setProperty("--rot", rot + "deg");
 
   document.body.appendChild(paw);
+
   setTimeout(() => paw.remove(), 4000);
 });
 </script>
+
 
 
 </body>
