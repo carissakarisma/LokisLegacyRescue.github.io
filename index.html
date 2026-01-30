@@ -28,8 +28,6 @@ body{
   color:var(--text);
 }
 
-/* Layout */
-
 .wrap{
   max-width:1050px;
   margin:auto;
@@ -56,4 +54,118 @@ nav a{
   color:var(--muted);
 }
 
-nav a:hover{color:whit
+nav a:hover{color:white}
+
+.card{
+  background: rgba(17,24,38,.75);
+  padding:22px;
+  border-radius:18px;
+  margin-bottom:20px;
+}
+
+h1,h2{margin-top:0}
+
+button{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;
+  padding:12px 18px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{opacity:.9}
+
+/* 🐾 Paw prints */
+
+.pawprint{
+  position:fixed;
+  width:30px;
+  pointer-events:none;
+  z-index:99999;
+  opacity:.75;
+  transform:rotate(var(--rot));
+  animation:fadePaw 4s forwards;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
+}
+
+@keyframes fadePaw{
+  from{opacity:.75}
+  to{opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+<strong>Loki's Legacy Rescue</strong>
+<div>
+<a href="#about">About</a>
+<a href="#adopt">Adopt</a>
+<a href="#donate">Donate</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<h1>Rescue • Rehab • Rehome</h1>
+<p>Helping animals in crisis through rescue, fostering, and adoption.</p>
+<button>Donate</button>
+</div>
+
+<div id="about" class="card">
+<h2>About Us</h2>
+<p>
+Loki’s Legacy Rescue is a nonprofit dedicated to saving animals in need and giving them a second chance at life.
+</p>
+</div>
+
+<div id="adopt" class="card">
+<h2>Adopt</h2>
+<p>Coming soon — adoptable pets listings.</p>
+</div>
+
+<div id="donate" class="card">
+<h2>Donate</h2>
+<p>Venmo: @LokisLegacyRescue</p>
+<p>PayPal: paypal.me/YourRescue</p>
+</div>
+
+<div id="contact" class="card">
+<h2>Contact</h2>
+<p>Email: yourrescue@email.com</p>
+</div>
+
+</div>
+
+<script>
+let lastPawTime = 0;
+
+document.addEventListener("mousemove", (e) => {
+  const now = Date.now();
+  if (now - lastPawTime < 250) return;
+  lastPawTime = now;
+
+  const paw = document.createElement("img");
+  paw.src = "paw.jpg"; // same folder as index.html
+  paw.className = "pawprint";
+
+  paw.style.left = (e.clientX - 15) + "px";
+  paw.style.top  = (e.clientY - 15) + "px";
+
+  const rot = Math.random() * 30 - 15;
+  paw.style.setProperty("--rot", rot + "deg");
+
+  document.body.appendChild(paw);
+  setTimeout(() => paw.remove(), 4000);
+});
+</script>
+
+</body>
+</html>
